@@ -8,6 +8,12 @@
 <meta name="author" content="Mr Techlab Studio">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#030b16">
+<script>
+/* Pro status cache (re-checked against the database after sign-in). Pro members skip every ad except the 320x50 banner. */
+(function(w,d){var p=false;try{var o=JSON.parse(localStorage.getItem('mt_pro_v1')||'null');p=!!(o&&o.until>Date.now());}catch(e){}
+w.__MT_PRO=p;if(p)d.documentElement.classList.add('is-pro');
+w.mtAd=function(src,attr){if(!w.__MT_PRO)d.write('<script '+(attr||'')+' src="'+src+'"><\/script>');};})(window,document);
+</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mr Techlab Studio">
 <meta property="og:title" content="Mr Techlab Studio">
@@ -295,6 +301,13 @@ html,body{max-width:100%;overflow-x:hidden}
   .social-links{gap:1.6rem 1rem!important}
   .tooltip-container:nth-child(-n+3) .tooltip{left:50%}
 }
+
+/* ---- Pro-locked theme colours ---- */
+.theme-swatch{position:relative}
+.theme-swatch.locked{opacity:.55}
+.theme-swatch.locked::after{content:'';position:absolute;top:-4px;right:-4px;width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,#ffe27a,#ff9500);border:1px solid #02070f}
+.theme-hint{display:none;padding:8px 14px;border-radius:20px;background:rgba(3,11,22,.94);border:1px solid rgba(255,200,60,.6);color:#ffd45e;font-size:.76rem;font-weight:700;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,.6);white-space:nowrap}
+.theme-hint.show{display:block}
 </style>
 </head>
 <body>
@@ -443,7 +456,69 @@ html,body{max-width:100%;overflow-x:hidden}
         </div>
         <div class="section-divider animate-fade-in-up"></div>
 
-        <!-- Category: Profile -->
+
+
+
+       <!-- Category: Free Fire -->
+        <div class="category-header animate-fade-in-up" style="animation-delay:0.32s"><h2>Free Fire</h2></div>
+        <div class="feature-card animate-fade-in-up" style="animation-delay:0.34s">
+            <span class="corner-ribbon" data-r="FF NAME"></span>
+            <div class="border-wrapper"><div class="card-border-animation"></div></div>
+            <div class="card-inner">
+                <div class="circle circle-bottom"></div><div class="circle circle-right"></div>
+                <div class="badge">Tool</div>
+                <h3 class="card-title">FF Name Generator</h3>
+                <div class="sec-loader" aria-hidden="true">
+                    <span class="sec-glow"></span><span class="sec-pulse"></span><span class="sec-pulse sec-pulse-2"></span>
+                    <svg class="sec-art" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                    <i class="sec-dot d1"></i><i class="sec-dot d2"></i><i class="sec-dot d3"></i><i class="sec-dot d4"></i>
+                </div>
+                <a href="ff-name/index.html" class="download-btn"><span>OPEN</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+        </div>
+        <div class="section-divider animate-fade-in-up"></div>
+
+        <!-- FF ID Inspector -->
+        <div class="feature-card animate-fade-in-up" style="animation-delay:0.38s">
+            <span class="corner-ribbon" data-r="Ff uid details"></span>
+            <div class="border-wrapper"><div class="card-border-animation"></div></div>
+            <div class="card-inner">
+                <div class="circle circle-bottom"></div><div class="circle circle-right"></div>
+                <div class="badge">Tool</div>
+                <h3 class="card-title">FF ID Inspector</h3>
+                <div class="sec-loader" aria-hidden="true">
+                    <span class="sec-glow"></span><span class="sec-pulse"></span><span class="sec-pulse sec-pulse-2"></span>
+                    <svg class="sec-art" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+                    <i class="sec-dot d1"></i><i class="sec-dot d2"></i><i class="sec-dot d3"></i><i class="sec-dot d4"></i>
+                </div>
+                <a href="ff-name/uid.html" class="download-btn"><span>View</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+        </div>
+        <div class="section-divider animate-fade-in-up"></div>
+ 
+
+        <!-- Category: Subscription -->
+        <div class="category-header animate-fade-in-up" style="animation-delay:0.32s"><h2>Subscription</h2></div>
+        <div class="feature-card animate-fade-in-up" style="animation-delay:0.34s">
+            <span class="corner-ribbon" data-r="PRO"></span>
+            <div class="border-wrapper"><div class="card-border-animation"></div></div>
+            <div class="card-inner">
+                <div class="circle circle-bottom"></div><div class="circle circle-right"></div>
+                <div class="badge">Go Pro</div>
+                <h3 class="card-title">Subscription</h3>
+                <div class="sec-loader" aria-hidden="true">
+                    <span class="sec-glow"></span><span class="sec-pulse"></span><span class="sec-pulse sec-pulse-2"></span>
+                    <svg class="sec-art" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 4 5-7 5 7 4-4-2 11H5L3 8z"/></svg>
+                    <i class="sec-dot d1"></i><i class="sec-dot d2"></i><i class="sec-dot d3"></i><i class="sec-dot d4"></i>
+                </div>
+                <a href="subscription.html" class="download-btn"><span>VIEW</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>
+            </div>
+        </div>
+        <div class="section-divider animate-fade-in-up"></div>
+
+
+
+       <!-- Category: Profile -->
         <div class="category-header animate-fade-in-up" style="animation-delay:0.28s"><h2>Profile</h2></div>
         <div class="feature-card animate-fade-in-up" style="animation-delay:0.30000000000000004s">
             <span class="corner-ribbon" data-r="ME"></span>
@@ -461,6 +536,7 @@ html,body{max-width:100%;overflow-x:hidden}
             </div>
         </div>
         <div class="section-divider animate-fade-in-up"></div>
+
 
 
         <!-- Suport -->
@@ -488,8 +564,8 @@ html,body{max-width:100%;overflow-x:hidden}
                 <a href="https://www.instagram.com/mrtechlabstudio" target="_blank" rel="noopener" class="icon"><div class="layer"><svg class="stroke" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></div><div class="text">Instagram</div></a>
             </div>
             <div class="tooltip-container email">
-                <div class="tooltip"><a class="tooltip-profile" href="mailto:mrmostafizur198@gmail.com"><img loading="lazy" decoding="async" src="img/logo.png" alt="" class="tooltip-img"><div class="tooltip-details"><span class="tooltip-name">Email</span><span class="tooltip-about">mrmostafizur198@gmail.com</span></div></a></div>
-                <a href="mailto:mrmostafizur198@gmail.com" class="icon"><div class="layer"><svg class="stroke" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div class="text">Email</div></a>
+                <div class="tooltip"><a class="tooltip-profile" href="mailto:mrtechlabstudisupport@gmail.com"><img loading="lazy" decoding="async" src="img/logo.png" alt="" class="tooltip-img"><div class="tooltip-details"><span class="tooltip-name">Email</span><span class="tooltip-about">mrmostafizur198@gmail.com</span></div></a></div>
+                <a href="mailto:mrtechlabstudisupport@gmail.com" class="icon"><div class="layer"><svg class="stroke" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div class="text">Email</div></a>
             </div>
             </div>
         </div>
@@ -542,8 +618,8 @@ html,body{max-width:100%;overflow-x:hidden}
                 <p style="font-size:.9rem;line-height:1.5;margin-bottom:10px;position:relative;z-index:2">Facing an issue with an app, a file or your developer account? Contact our support team — we are always here to help.</p>
                 <p style="color:var(--text-muted);font-size:.85rem;line-height:1.5;margin-bottom:15px;position:relative;z-index:2">কোনো অ্যাপ, ফাইল বা ডেভেলপার অ্যাকাউন্টে সমস্যা হলে আমাদের সাপোর্টে যোগাযোগ করুন। আমরা সাহায্য করতে প্রস্তুত।</p>
                 <div style="display:flex;gap:10px;width:calc(100% + 16px);margin:0 -8px 20px">
-                    <a href="https://t.me/YOUR_TELEGRAM" target="_blank" rel="noopener" class="btn-tg"><span class="btn-tg_lg"><span class="btn-tg_sl"></span><span class="btn-tg_text">TELEGRAM</span></span></a>
-                    <a href="https://wa.me/YOUR_NUMBER" target="_blank" rel="noopener" class="btn-tg"><span class="btn-tg_lg"><span class="btn-tg_sl"></span><span class="btn-tg_text">WHATSAPP</span></span></a>
+                    <a href="https://t.me/mrtechlabstudiosupport" target="_blank" rel="noopener" class="btn-tg"><span class="btn-tg_lg"><span class="btn-tg_sl"></span><span class="btn-tg_text">TELEGRAM</span></span></a>
+                    <a href="Follow this link to join my WhatsApp group: https://chat.whatsapp.com/HAScEiuNmCn0TW3pZGtGnK?s=sh&p=a&mlu=4&ilr=4" target="_blank" rel="noopener" class="btn-tg"><span class="btn-tg_lg"><span class="btn-tg_sl"></span><span class="btn-tg_text">WHATSAPP</span></span></a>
                 </div>
                 <label style="color:var(--text-muted);font-size:.85rem;cursor:pointer;display:flex;align-items:center;gap:8px;position:relative;z-index:2">
                     <input type="checkbox" id="support-popup-never"> Don't show this again
@@ -557,6 +633,7 @@ html,body{max-width:100%;overflow-x:hidden}
 
     <!-- Theme colour dot: pick one of 7 colours, applies to every page -->
     <div class="theme-dot" id="themeDot">
+        <a class="theme-hint" id="themeHint" href="subscription.html">🔒 এই রং শুধু Pro মেম্বারদের জন্য — Pro নিন</a>
         <div class="theme-panel" role="group" aria-label="Choose theme colour"></div>
         <button type="button" class="theme-dot-btn" aria-label="Choose theme colour"></button>
     </div>
@@ -573,10 +650,10 @@ html,body{max-width:100%;overflow-x:hidden}
     { id: 'cyan',    name: 'Cyan',    a: '#00e5ff', b: '#3a86ff' },
     { id: 'violet',  name: 'Violet',  a: '#8b6cff', b: '#6c4cff' },
     { id: 'emerald', name: 'Emerald', a: '#00e08a', b: '#00a86b' },
-    { id: 'rose',    name: 'Rose',    a: '#ff3d71', b: '#ff0055' },
-    { id: 'orange',  name: 'Orange',  a: '#ff9f1a', b: '#ff5e00' },
-    { id: 'magenta', name: 'Magenta', a: '#ff4fd8', b: '#b44cff' },
-    { id: 'yellow',  name: 'Yellow',  a: '#ffe600', b: '#ffb800' }
+    { id: 'rose',    name: 'Rose',    a: '#ff3d71', b: '#ff0055', pro: true },
+    { id: 'orange',  name: 'Orange',  a: '#ff9f1a', b: '#ff5e00', pro: true },
+    { id: 'magenta', name: 'Magenta', a: '#ff4fd8', b: '#b44cff', pro: true },
+    { id: 'yellow',  name: 'Yellow',  a: '#ffe600', b: '#ffb800', pro: true }
   ];
 
   function hexToRgb(hex) {
@@ -590,7 +667,10 @@ html,body{max-width:100%;overflow-x:hidden}
   }
 
   function current() {
-    try { return find(localStorage.getItem(STORAGE_KEY)); } catch (e) { return PALETTE[0]; }
+    try {
+      var s = find(localStorage.getItem(STORAGE_KEY));
+      return (s.pro && !win.__MT_PRO) ? PALETTE[0] : s;   /* colours 4-7 are Pro only */
+    } catch (e) { return PALETTE[0]; }
   }
 
   function apply(scheme) {
@@ -603,13 +683,14 @@ html,body{max-width:100%;overflow-x:hidden}
 
   function set(id) {
     var scheme = find(id);
+    if (scheme.pro && !win.__MT_PRO) scheme = current();
     apply(scheme);
     try { localStorage.setItem(STORAGE_KEY, scheme.id); } catch (e) {}
     return scheme;
   }
 
   apply(current());
-  win.MtTheme = { PALETTE: PALETTE, current: current, set: set };
+  win.MtTheme = { PALETTE: PALETTE, current: current, set: set, refresh: function () { apply(current()); } };
 })(window, document);
 
 (function (doc, win) {
@@ -735,12 +816,18 @@ html,body{max-width:100%;overflow-x:hidden}
     win.MtTheme.PALETTE.forEach(function (c) {
       var b = doc.createElement('button');
       b.type = 'button';
-      b.className = 'theme-swatch' + (c.id === active ? ' active' : '');
+      var locked = !!(c.pro && !win.__MT_PRO);
+      b.className = 'theme-swatch' + (c.id === active ? ' active' : '') + (locked ? ' locked' : '');
       b.style.background = 'linear-gradient(135deg,' + c.a + ',' + c.b + ')';
       b.style.color = c.a;
       b.title = c.name;
       b.setAttribute('aria-label', c.name);
       b.addEventListener('click', function () {
+        if (c.pro && !win.__MT_PRO) {
+          var hint = $('themeHint'); hint.classList.add('show');
+          setTimeout(function () { hint.classList.remove('show'); }, 4500);
+          return;
+        }
         win.MtTheme.set(c.id);
         panel.querySelectorAll('.theme-swatch').forEach(function (s) { s.classList.remove('active'); });
         b.classList.add('active');

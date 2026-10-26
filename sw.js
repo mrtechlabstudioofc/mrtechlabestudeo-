@@ -1,8 +1,8 @@
 /* Service worker — caches the app shell; network first so data stays fresh. */
-const CACHE = "mr-techlab-shell-v6";
+const CACHE = "mr-techlab-shell-v7";
 const SHELL = [
   "./", "./index.html", "./apk.html", "./host.html", "./prompts.html", "./files.html",
-  "./developer.html", "./downloads.html", "./profile.html",
+  "./developer.html", "./downloads.html", "./profile.html", "./subscription.html",
   "./privacy.html", "./terms.html", "./about.html", "./contact.html",
   "./img/logo.png", "./manifest.json"
 ];

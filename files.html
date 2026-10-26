@@ -6,6 +6,12 @@
 <title>Files — Mr Techlab Studio</title>
 <meta name="description" content="Mr Techlab Studio — Files.">
 <meta name="theme-color" content="#030b16">
+<script>
+/* Pro status cache (re-checked against the database after sign-in). Pro members skip every ad except the 320x50 banner. */
+(function(w,d){var p=false;try{var o=JSON.parse(localStorage.getItem('mt_pro_v1')||'null');p=!!(o&&o.until>Date.now());}catch(e){}
+w.__MT_PRO=p;if(p)d.documentElement.classList.add('is-pro');
+w.mtAd=function(src,attr){if(!w.__MT_PRO)d.write('<script '+(attr||'')+' src="'+src+'"><\/script>');};})(window,document);
+</script>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2940,6 +2946,16 @@ html,body{max-width:100%;overflow-x:hidden}
 .page-view{min-width:0;max-width:100%}
 
 .pc-head span.pc-folder{flex:0 0 38px}
+
+/* =========================================================
+   PRO / SUBSCRIPTION (additions only — existing design untouched)
+   Pro members keep ONLY the fixed 320x50 banner; every other ad is hidden.
+   ========================================================= */
+html.is-pro .native-ad-slot,
+html.is-pro .detail-mid-ad,
+html.is-pro .detail-ad-slot{display:none!important}
+.pf-chip.pro{color:#2a1a00;font-weight:800;letter-spacing:.8px;background:linear-gradient(135deg,#ffe27a,#ffb800 55%,#ff9500);border-color:rgba(255,214,102,.9);box-shadow:0 0 14px rgba(255,184,0,.45)}
+.pro-tag{display:inline-block;font-size:.58rem;font-weight:800;letter-spacing:.8px;line-height:1;padding:3px 6px;border-radius:6px;color:#2a1a00;background:linear-gradient(135deg,#ffe27a,#ffb800 55%,#ff9500);vertical-align:middle;margin-left:6px;-webkit-text-fill-color:#2a1a00}
 </style>
 </head>
 <body data-page-view="files">
@@ -2952,8 +2968,8 @@ html,body{max-width:100%;overflow-x:hidden}
 </div></div>
 
 <!-- Adsterra (popunder + social bar), loaded once per page -->
-<script src="https://pl31405166.profitableratecpmnetwork.com/f6/57/db/f657db1113a6bcf4fab49d073628017e.js"></script>
-<script src="https://pl31405461.profitableratecpmnetwork.com/0c/64/3e/0c643e1b095de2862201f38c0ba23e36.js"></script>
+<script>mtAd("https://pl31405166.profitableratecpmnetwork.com/f6/57/db/f657db1113a6bcf4fab49d073628017e.js")</script>
+<script>mtAd("https://pl31405461.profitableratecpmnetwork.com/0c/64/3e/0c643e1b095de2862201f38c0ba23e36.js")</script>
 
 <div id="boot"><div class="ld-ring"><i></i><i></i><i></i></div><div class="ld-bar"></div><div class="ld-text">Loading</div></div>
 
@@ -3027,7 +3043,7 @@ html,body{max-width:100%;overflow-x:hidden}
          (Home/Categories/Downloads/Profile/etc.) is currently shown. -->
     <div class="native-ad-slot">
       <span class="native-ad-label">Sponsored</span>
-      <script async="async" data-cfasync="false" src="https://pl31405462.profitableratecpmnetwork.com/0a1073280d0977a6f3f56e3393d8b4bd/invoke.js"></script>
+      <script>mtAd("https://pl31405462.profitableratecpmnetwork.com/0a1073280d0977a6f3f56e3393d8b4bd/invoke.js",'async="async" data-cfasync="false"')</script>
       <div id="container-0a1073280d0977a6f3f56e3393d8b4bd"></div>
     </div>
 
@@ -3089,7 +3105,7 @@ html,body{max-width:100%;overflow-x:hidden}
             'params' : {}
           };
         </script>
-        <script src="https://www.highrevenueformat.com/43c3fd7befc662a9e6392fec3dd3b7ce/invoke.js"></script>
+        <script>mtAd("https://www.highrevenueformat.com/43c3fd7befc662a9e6392fec3dd3b7ce/invoke.js")</script>
       </div>
     </div>
     <div id="detail-content"></div>
@@ -3112,7 +3128,7 @@ html,body{max-width:100%;overflow-x:hidden}
             'params' : {}
           };
         </script>
-        <script src="https://www.highrevenueformat.com/43c3fd7befc662a9e6392fec3dd3b7ce/invoke.js"></script>
+        <script>mtAd("https://www.highrevenueformat.com/43c3fd7befc662a9e6392fec3dd3b7ce/invoke.js")</script>
       </div>
       <div class="detail-ad-slot">
         <span class="native-ad-label">Sponsored</span>
@@ -3125,7 +3141,7 @@ html,body{max-width:100%;overflow-x:hidden}
             'params' : {}
           };
         </script>
-        <script src="https://www.highrevenueformat.com/43c3fd7befc662a9e6392fec3dd3b7ce/invoke.js"></script>
+        <script>mtAd("https://www.highrevenueformat.com/43c3fd7befc662a9e6392fec3dd3b7ce/invoke.js")</script>
       </div>
       <button class="btn btn-primary btn-block" id="detail-dl-btn"></button>
     </div>
@@ -3148,6 +3164,18 @@ html,body{max-width:100%;overflow-x:hidden}
   </div>
 </div>
 
+<!-- ============ PRO / LIMIT MODAL ============ -->
+<div class="overlay" id="pro-overlay"></div>
+<div class="gate-modal" id="pro-modal" role="dialog" aria-modal="true">
+  <div class="gate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M3 8l4 4 5-7 5 7 4-4-2 11H5L3 8z"/></svg></div>
+  <h3 id="pro-title"></h3>
+  <p id="pro-text"></p>
+  <div class="auth-stack">
+    <button class="btn btn-primary btn-block" id="pro-go">Pro নিন</button>
+    <button class="btn btn-ghost btn-block btn-sm" id="pro-close">এখন না</button>
+  </div>
+</div>
+
 <div id="toast-host"></div>
 
 
@@ -3160,6 +3188,7 @@ import {
 import {
   getDatabase, ref, get, push, set, update, query, orderByChild, runTransaction, increment
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+import { firebaseConfig, IMGBB_API_KEY } from "./app.js";
 
 /* ---------- theme (colour scheme saved by the dot on index.html) ---------- */
 (function (win, doc) {
@@ -3172,10 +3201,10 @@ import {
     { id: 'cyan',    name: 'Cyan',    a: '#00e5ff', b: '#3a86ff' },
     { id: 'violet',  name: 'Violet',  a: '#8b6cff', b: '#6c4cff' },
     { id: 'emerald', name: 'Emerald', a: '#00e08a', b: '#00a86b' },
-    { id: 'rose',    name: 'Rose',    a: '#ff3d71', b: '#ff0055' },
-    { id: 'orange',  name: 'Orange',  a: '#ff9f1a', b: '#ff5e00' },
-    { id: 'magenta', name: 'Magenta', a: '#ff4fd8', b: '#b44cff' },
-    { id: 'yellow',  name: 'Yellow',  a: '#ffe600', b: '#ffb800' }
+    { id: 'rose',    name: 'Rose',    a: '#ff3d71', b: '#ff0055', pro: true },
+    { id: 'orange',  name: 'Orange',  a: '#ff9f1a', b: '#ff5e00', pro: true },
+    { id: 'magenta', name: 'Magenta', a: '#ff4fd8', b: '#b44cff', pro: true },
+    { id: 'yellow',  name: 'Yellow',  a: '#ffe600', b: '#ffb800', pro: true }
   ];
 
   function hexToRgb(hex) {
@@ -3189,7 +3218,10 @@ import {
   }
 
   function current() {
-    try { return find(localStorage.getItem(STORAGE_KEY)); } catch (e) { return PALETTE[0]; }
+    try {
+      var s = find(localStorage.getItem(STORAGE_KEY));
+      return (s.pro && !win.__MT_PRO) ? PALETTE[0] : s;   /* colours 4-7 are Pro only */
+    } catch (e) { return PALETTE[0]; }
   }
 
   function apply(scheme) {
@@ -3202,39 +3234,29 @@ import {
 
   function set(id) {
     var scheme = find(id);
+    if (scheme.pro && !win.__MT_PRO) scheme = current();
     apply(scheme);
     try { localStorage.setItem(STORAGE_KEY, scheme.id); } catch (e) {}
     return scheme;
   }
 
   apply(current());
-  win.MtTheme = { PALETTE: PALETTE, current: current, set: set };
+  win.MtTheme = { PALETTE: PALETTE, current: current, set: set, refresh: function () { apply(current()); } };
 })(window, document);
 
 
 /* ===================== FIREBASE INIT ===================== */
-const firebaseConfig = {
-  apiKey: "AIzaSyA4kRF_flz5aweGQdEypNzI9K0fAnzHlyA",
-  authDomain: "mr-apk-bazar.firebaseapp.com",
-  projectId: "mr-apk-bazar",
-  storageBucket: "mr-apk-bazar.firebasestorage.app",
-  messagingSenderId: "208873681519",
-  appId: "1:208873681519:web:9a9a84fbb19f2cf866d39a",
-  measurementId: "G-DGGTZ1PS6C"
-};
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
 const db = getDatabase(fbApp);
 const googleProvider = new GoogleAuthProvider();
-
-const IMGBB_API_KEY = "YOUR_IMGBB_API_KEY";
 
 /* ===================== PAGE ROUTING (one html file per feature) ===================== */
 const PAGE_VIEW = document.body.dataset.pageView || "home";   // <body data-page-view="...">
 const ROUTES = {
   menu: "index.html", home: "apk.html", categories: "apk.html", host: "host.html",
   prompts: "prompts.html", files: "files.html", upload: "developer.html",
-  downloads: "downloads.html", profile: "profile.html",
+  downloads: "downloads.html", profile: "profile.html", subscription: "subscription.html",
   privacy: "privacy.html", terms: "terms.html", about: "about.html", contact: "contact.html"
 };
 function showLoader(){
@@ -3266,7 +3288,10 @@ const state = {
   photoUploading: false,
   isBlocked: false,
   currentView: PAGE_VIEW,
-  detailApp: null
+  detailApp: null,
+  pro: { until: 0, plan: "" },
+  proLoaded: false,
+  dlq: { day: "", n: 0 }
 };
 
 function getAvatarUrl(){
@@ -3350,6 +3375,172 @@ function dlIconSvg(type){
   if(type==="play_store") return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4.5v15L19 12 5 4.5Z"/></svg>';
   if(type==="google_drive") return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3h8l5 9-2.5 4.5h-13L3 12z"/><path d="M8 3l5 9m0 0 2.5 4.5M13 12H3"/></svg>';
   return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>';
+}
+
+/* ===================== PRO / SUBSCRIPTION + DAILY DOWNLOAD LIMIT =====================
+   Pro status is stored at users/{uid}/pro = { until:<ms>, planName } and is written ONLY by the admin app.
+   Free users: FREE_DAILY_DL downloads per day (apps + ZIP files combined). Copying prompts is never limited. */
+const FREE_DAILY_DL = 2;
+const PRO_CACHE_KEY = "mt_pro_v1", DLQ_KEY = "mt_dlq_v1";
+let proTimer = null;
+
+const isPro = ()=> !!(state.pro && state.pro.until > Date.now());
+/* Until the first database answer arrives, trust the cached flag so Pro members never see a flash of limits. */
+const proNow = ()=> isPro() || (!state.proLoaded && !!window.__MT_PRO);
+const withTimeout = (p, ms)=> Promise.race([p, new Promise((_, rej)=> setTimeout(()=> rej(new Error("timeout")), ms))]);
+const dayKey = ()=>{ const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+
+/* ---- Bengali number / date helpers (shared by profile + subscription page) ---- */
+const bnNum = (v)=> String(v).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+const fmtDate = (ms)=>{
+  const d = new Date(ms), p = n => String(n).padStart(2, "0");
+  let h = d.getHours(); const ap = h >= 12 ? "PM" : "AM"; h = h % 12 || 12;
+  return bnNum(p(d.getDate()) + "/" + p(d.getMonth() + 1) + "/" + d.getFullYear() + "  " + p(h) + ":" + p(d.getMinutes())) + " " + ap;
+};
+function leftText(ms){
+  const t = Math.max(0, Math.floor((ms - Date.now()) / 60000));
+  const d = Math.floor(t / 1440), h = Math.floor(t % 1440 / 60), m = t % 60;
+  if(d) return bnNum(d) + " দিন " + bnNum(h) + " ঘণ্টা";
+  if(h) return bnNum(h) + " ঘণ্টা " + bnNum(m) + " মিনিট";
+  return bnNum(m) + " মিনিট";
+}
+const DUR_UNITS = { minute:["মিনিট", 60000], hour:["ঘণ্টা", 3600000], day:["দিন", 86400000], month:["মাস", 2592000000], year:["বছর", 31536000000] };
+function planMs(p){
+  if(Number(p.durationMs) > 0) return Number(p.durationMs);
+  const u = DUR_UNITS[p.durationUnit];
+  return u ? Math.round((Number(p.durationValue) || 0) * u[1]) : 0;
+}
+function planDurLabel(p){
+  if(p.durationLabel) return String(p.durationLabel);
+  const u = DUR_UNITS[p.durationUnit];
+  return u ? bnNum(Number(p.durationValue) || 0) + " " + u[0] : "—";
+}
+
+/* ---- Pro status ---- */
+function setProCache(p){
+  try{
+    if(p && p.until > Date.now()) localStorage.setItem(PRO_CACHE_KEY, JSON.stringify({ until: p.until, plan: p.plan || "", uid: p.uid || "" }));
+    else localStorage.removeItem(PRO_CACHE_KEY);
+  }catch(e){}
+  window.__MT_PRO = !!(p && p.until > Date.now());
+  document.documentElement.classList.toggle("is-pro", window.__MT_PRO);
+  if(window.MtTheme && window.MtTheme.refresh) window.MtTheme.refresh();
+}
+function clearPro(){
+  if(proTimer){ clearTimeout(proTimer); proTimer = null; }
+  state.pro = { until: 0, plan: "" };
+  state.proLoaded = true;
+  state.dlq = { day: dayKey(), n: 0 };
+  setProCache(null);
+}
+function rerenderPro(){
+  if(state.currentView === "profile") renderProfileView();
+  if(state.currentView === "subscription" && typeof renderSubscription === "function") renderSubscription();
+}
+function armProTimer(){
+  if(proTimer){ clearTimeout(proTimer); proTimer = null; }
+  const left = state.pro.until - Date.now();
+  if(left > 0 && left < 2147000000){
+    proTimer = setTimeout(()=>{
+      setProCache(null);
+      toast("আপনার Pro মেয়াদ শেষ হয়েছে।");
+      rerenderPro();
+    }, left + 500);
+  }
+}
+async function loadPro(){
+  if(!state.user || state.isGuest){ clearPro(); return; }
+  const uid = state.user.uid;
+  let until = state.pro.until, plan = state.pro.plan;
+  try{
+    const snap = await withTimeout(get(ref(db, `users/${uid}/pro`)), 7000);
+    const v = snap.exists() ? (snap.val() || {}) : {};
+    until = Number(v.until) || 0;
+    plan = String(v.planName || "");
+  }catch(e){
+    /* offline: fall back to the last cached answer for this same account */
+    try{
+      const c = JSON.parse(localStorage.getItem(PRO_CACHE_KEY) || "null");
+      if(c && c.uid === uid){ until = c.until; plan = c.plan || ""; }
+    }catch(_){}
+  }
+  state.pro = { until, plan };
+  state.proLoaded = true;
+  setProCache(isPro() ? { until, plan, uid } : null);
+  armProTimer();
+  await loadQuota();
+  rerenderPro();
+}
+
+/* ---- daily download quota (free users) ---- */
+function localQ(){
+  try{
+    const o = JSON.parse(localStorage.getItem(DLQ_KEY) || "null");
+    return (o && state.user && o.uid === state.user.uid && o.day === dayKey()) ? (Number(o.n) || 0) : 0;
+  }catch(e){ return 0; }
+}
+function saveLocalQ(n){ try{ if(state.user) localStorage.setItem(DLQ_KEY, JSON.stringify({ uid: state.user.uid, day: dayKey(), n })); }catch(e){} }
+async function loadQuota(){
+  state.dlq = { day: dayKey(), n: localQ() };
+  if(!state.user || state.isGuest) return;
+  try{
+    const snap = await withTimeout(get(ref(db, `users/${state.user.uid}/dlq`)), 7000);
+    const v = snap.exists() ? snap.val() : null;
+    const n = (v && v.day === dayKey()) ? (Number(v.n) || 0) : 0;
+    state.dlq = { day: dayKey(), n: Math.max(n, state.dlq.n) };
+    saveLocalQ(state.dlq.n);
+  }catch(e){}
+}
+function dlUsed(){
+  if(state.dlq.day !== dayKey()) state.dlq = { day: dayKey(), n: localQ() };
+  return state.dlq.n;
+}
+const dlLeft = ()=> proNow() ? Infinity : Math.max(0, FREE_DAILY_DL - dlUsed());
+/* call exactly when a download really starts (app, or one ZIP) */
+function useDownload(){
+  if(proNow() || !state.user || state.isGuest) return;
+  const day = dayKey();
+  state.dlq = { day, n: dlUsed() + 1 };
+  saveLocalQ(state.dlq.n);
+  const mine = state.dlq.n;
+  runTransaction(ref(db, `users/${state.user.uid}/dlq`), cur =>
+    (cur && cur.day === day) ? { day, n: (Number(cur.n) || 0) + 1 } : { day, n: mine }
+  ).catch(()=>{});
+}
+
+/* ---- "Pro needed" / "limit reached" dialog ---- */
+const PRO_MSG = {
+  limit:   ["আজকের ডাউনলোড সীমা শেষ", "ফ্রি অ্যাকাউন্টে দিনে মোট " + bnNum(FREE_DAILY_DL) + "টি ডাউনলোড (অ্যাপ ও ZIP ফাইল মিলিয়ে) করা যায়। আনলিমিটেড ডাউনলোডের জন্য Pro নিন, অথবা আগামীকাল আবার চেষ্টা করুন। প্রম্পট কপি সবসময় আনলিমিটেড।"],
+  proonly: ["শুধু Pro মেম্বারদের জন্য", "এই কনটেন্ট Pro মেম্বারদের জন্য লক করা আছে। Pro নিলে সব আনলক হয়ে যাবে।"],
+  bulk:    ["একসাথে একাধিক ফাইল — Pro", "ফ্রি অ্যাকাউন্টে একবারে একটি ফাইলের ZIP নামানো যায়। একটি ফাইল সিলেক্ট করুন, অথবা Pro নিয়ে সব ফাইল একসাথে নামান।"]
+};
+function showProDialog(kind){
+  const m = PRO_MSG[kind] || PRO_MSG.proonly;
+  $("#pro-title").textContent = m[0];
+  $("#pro-text").textContent = m[1];
+  $("#pro-overlay").classList.add("show");
+  $("#pro-modal").classList.add("show");
+}
+function closeProDialog(){
+  $("#pro-overlay").classList.remove("show");
+  $("#pro-modal").classList.remove("show");
+}
+$("#pro-go").addEventListener("click", ()=>{ closeProDialog(); goTo("subscription"); });
+$("#pro-close").addEventListener("click", closeProDialog);
+$("#pro-overlay").addEventListener("click", closeProDialog);
+
+/* Pro developers go live instantly. If the database rules don't allow that (yet), it quietly falls back to normal approval. */
+async function submitUpload(path, payload, fast){
+  const node = push(ref(db, path));
+  try{ await set(node, payload); return fast; }
+  catch(e){
+    if(fast && /PERMISSION_DENIED/i.test(String((e && (e.code || e.message)) || ""))){
+      payload.enabled = false; payload.status = "pending";
+      await set(node, payload);
+      return false;
+    }
+    throw e;
+  }
 }
 
 /* ===================== AUTH ===================== */
@@ -3455,6 +3646,7 @@ onAuthStateChanged(auth, (user)=>{
     updateProfileUI();
     loadCustomPhoto();
     syncUserProfile();
+    loadPro();
     (async ()=>{
       await loadBlockedStatus();
       await loadDeveloper();
@@ -3468,10 +3660,14 @@ onAuthStateChanged(auth, (user)=>{
   } else if(!state.isGuest){
     state.customPhotoURL = null;
     state.isBlocked = false;
+    clearPro();
+    state.dev = null; state.devLoaded = false;
     updateProfileUI();
   } else {
     state.customPhotoURL = null;
     state.isBlocked = false;
+    clearPro();
+    state.dev = null; state.devLoaded = false;
     updateProfileUI();
   }
 });
@@ -3812,7 +4008,7 @@ function promptCardHtml(p){
     <div class="pcard-top">
       <div class="pcard-ico">${ICON_PROMPT}</div>
       <div class="pcard-info">
-        <div class="pcard-title">${escapeHtml(p.title||"Untitled")}</div>
+        <div class="pcard-title">${escapeHtml(p.title||"Untitled")}${p.proOnly ? '<span class="pro-tag">PRO</span>' : ""}</div>
         <div class="pcard-sub"><span class="pc-prog"></span><span class="pcard-dot">•</span><span>by ${escapeHtml(devLabel(p))}</span></div>
       </div>
     </div>
@@ -3838,6 +4034,7 @@ function renderPromptGrid(){
   wrap.onclick = (e)=>{
     const card = e.target.closest(".pc-prompt"); if(!card) return;
     const p = byId(card.dataset.pid); if(!p) return;
+    if(p.proOnly && !proNow() && e.target.closest("[data-pedit],[data-copy-prompt]")){ showProDialog("proonly"); return; }
     const edit = e.target.closest("[data-pedit]");
     if(edit){
       const box = card.querySelector(".pc-editor");
@@ -3890,7 +4087,7 @@ function zpItemHtml(p){
     <div class="pc-item-row">
       <label class="pc-check">
         <input type="checkbox" data-pz><span class="pc-box" aria-hidden="true"></span>
-        <div class="pc-meta"><span class="pc-title">${escapeHtml(p.title||"Untitled")}</span><span class="pc-prog"></span><span class="pc-by">by ${escapeHtml(devLabel(p))}</span></div>
+        <div class="pc-meta"><span class="pc-title">${escapeHtml(p.title||"Untitled")}${p.proOnly ? '<span class="pro-tag">PRO</span>' : ""}</span><span class="pc-prog"></span><span class="pc-by">by ${escapeHtml(devLabel(p))}</span></div>
       </label>
       <button class="btn btn-ghost btn-sm" data-pedit>Edit</button>
     </div>
@@ -3971,6 +4168,7 @@ async function getFilePassword(p){
 }
 
 async function downloadZipPack(catName, items){
+  if(dlLeft() <= 0){ showProDialog("limit"); return; }
   try{
     toast("Preparing ZIP…");
     await loadZipLib();
@@ -3988,6 +4186,7 @@ async function downloadZipPack(catName, items){
       await writer.add(name, new zip.TextReader(zpBuild(p)), opts);
     }
     const blob = await writer.close();
+    useDownload();
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = catName.replace(/[\\/:*?"<>|]/g, "_") + ".zip";
@@ -4038,6 +4237,8 @@ function renderZipGrid(){
     const item = e.target.closest(".pc-item");
     const edit = e.target.closest("[data-pedit]");
     if(edit && item){
+      const fp = byId(item.dataset.pid);
+      if(fp && fp.proOnly && !proNow()){ showProDialog("proonly"); return; }
       const box = item.querySelector(".pc-editor");
       if(!box.hidden){ box.hidden = true; box.innerHTML = ""; edit.textContent = "Edit"; return; }
       adGate("fe:"+item.dataset.pid, ()=>{ box.innerHTML = zpEditorHtml(byId(item.dataset.pid)); box.hidden = false; growAll(box); edit.textContent = "Done"; }, true);
@@ -4048,7 +4249,13 @@ function renderZipGrid(){
       const card = zbtn.closest(".pc-cat"), [cat, items] = groups[+card.dataset.gi];
       const picked = [...card.querySelectorAll(".pc-item")].filter(el=> el.querySelector("[data-pz]").checked).map(el=> byId(el.dataset.pid));
       if(state.isBlocked){ toast("Downloads are currently disabled for your account. Please contact support.", "error"); return; }
-      adGate("fz:"+cat, ()=> downloadZipPack(cat, picked.length ? picked : items));
+      const chosen = picked.length ? picked : items;
+      if(!proNow()){
+        if(chosen.some(x=> x.proOnly)){ showProDialog("proonly"); return; }
+        if(chosen.length > 1){ showProDialog("bulk"); return; }
+        if(dlLeft() <= 0){ showProDialog("limit"); return; }
+      }
+      adGate("fz:"+cat, ()=> downloadZipPack(cat, chosen));
     }
   };
   wrap.onchange = (e)=>{
@@ -4237,6 +4444,7 @@ function requireAccount(){
    remember=true keeps the action unlocked for 30 minutes (used by the Edit buttons). */
 function adGate(key, run, remember){
   if(!requireAccount()) return;
+  if(proNow()){ run(); return; }   /* Pro: no ad taps */
   const okKey = "ok:" + key;
   if(remember && adCount(okKey)){ run(); return; }
 
@@ -4272,6 +4480,7 @@ function requestDownload(app){
     toast("Downloads are currently disabled for your account. Please contact support.", "error");
     return;
   }
+  if(dlLeft() <= 0){ showProDialog("limit"); return; }
   adGate("dl:"+app.id, ()=> startDownload(app));
 }
 
@@ -4283,9 +4492,11 @@ async function startDownload(app){
     toast(meta.errorMsg, "error");
     return;
   }
+  if(dlLeft() <= 0){ showProDialog("limit"); return; }
   state.downloadInFlight = true;
   toast(meta.type === "play_store" ? "Opening Google Play..." : "Preparing download...");
   try{
+    useDownload();
     await logAnalytics(app, meta.type);
     await recordDownloadHistory(app, url, meta.type);
     setTimeout(()=>{
@@ -4388,6 +4599,7 @@ async function renderDownloadsView(){
           toast("Downloads are currently disabled for your account. Please contact support.", "error");
           return;
         }
+        if(dlLeft() <= 0){ showProDialog("limit"); return; }
         adGate("rdl:"+btn.dataset.appid+":"+btn.dataset.redl, async ()=>{
           const isUpdate = btn.dataset.isupdate === "1";
           const isPlay = btn.dataset.isplay === "1";
@@ -4397,6 +4609,7 @@ async function renderDownloadsView(){
           }
           const url = btn.dataset.redl;
           if(!url){ toast("Download link is not available.", "error"); return; }
+          useDownload();
           const a = document.createElement("a"); a.href=url; a.target="_blank"; a.rel="noopener"; document.body.appendChild(a); a.click(); a.remove();
         });
       });
@@ -4465,6 +4678,7 @@ const PF_ICON = {
   files:     '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
   host:      '<rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/>',
   upload:    '<path d="M12 16V4m0 0-4 4m4-4 4 4M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/>',
+  subscription: '<path d="M3 8l4 4 5-7 5 7 4-4-2 11H5L3 8z"/>',
   contact:   '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
   privacy:   '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/>',
   terms:     '<path d="M6 3h9l5 5v13H6z"/><path d="M14 3v5h5"/>',
@@ -4522,6 +4736,7 @@ function renderProfileView(){
       <div class="pf-email">${escapeHtml(state.user.email||"")}</div>
       <div class="pf-chips">
         <span class="pf-chip ok">Active</span>
+        ${isPro() ? '<span class="pf-chip pro">PRO</span>' : ''}
         ${isDev() ? '<span class="pf-chip">Developer</span>' : ''}
         ${since ? `<span class="pf-chip">Member since ${escapeHtml(since)}</span>` : ''}
       </div>
@@ -4534,7 +4749,7 @@ function renderProfileView(){
       if(file) uploadProfilePhoto(file);
     });
     menu.innerHTML =
-      pfGroup("My Space", [pfItem("view","downloads","My Downloads","Apps you downloaded"), pfItem("view","upload","Developer Account","Upload apps and files")].concat(library)) +
+      pfGroup("My Space", [pfItem("view","downloads","My Downloads","Apps you downloaded"), pfItem("page","subscription","Subscription", isPro() ? "Pro active — " + leftText(state.pro.until) + " left" : "Go Pro — unlimited downloads"), pfItem("view","upload","Developer Account","Upload apps and files")].concat(library)) +
       pfGroup("Support & Legal", support) +
       `<button class="pf-signout" id="btn-signout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${PF_ICON.signout}</svg>Sign Out</button>`;
     $("#btn-signout")?.addEventListener("click", async ()=>{ await signOut(auth); state.isGuest=false; clearSnapshot(); $("#welcome").style.display="flex"; $("#app").classList.remove("ready"); });
@@ -4544,14 +4759,14 @@ function renderProfileView(){
       <div class="pf-name">Guest Mode</div>
       <div class="pf-email">Sign in to download apps, edit files and upload as a developer.</div>
       <button class="btn btn-primary pf-signin" id="btn-profile-signin">Sign In / Create Account</button>`;
-    menu.innerHTML = pfGroup("Explore", library) + pfGroup("Support & Legal", support);
+    menu.innerHTML = pfGroup("Explore", [pfItem("page","subscription","Subscription","Go Pro — unlimited downloads")].concat(library)) + pfGroup("Support & Legal", support);
     $("#btn-profile-signin")?.addEventListener("click", ()=>{ $("#welcome").style.display="flex"; $("#app").classList.remove("ready"); });
   }
   bindNavTriggers(menu);
 }
 
 /* ===================== ROUTING & BACK-BUTTON FIX ===================== */
-const views = ["home","host","prompts","files","upload","categories","downloads","profile","privacy","terms","about","contact"];
+const views = ["home","host","prompts","files","upload","categories","downloads","profile","subscription","privacy","terms","about","contact"];
 
 function applyView(name){
   state.currentView = name;
@@ -4569,6 +4784,7 @@ function applyView(name){
   if(name==="host"){ if(state.hostLoaded) renderHostGrid(); else loadHostLinks(); }
   if(name==="prompts"){ if(state.promptsLoaded) renderPromptGrid(); else loadPrompts(); }
   if(name==="files"){ if(state.zipLoaded) renderZipGrid(); else loadZipPrompts(); }
+  if(name==="subscription" && typeof renderSubscription === "function") renderSubscription();
 }
 
 function switchView(name, tab){
@@ -4745,8 +4961,10 @@ function applyUploadAvailability(){
   const gate = $("#dev-gate"), main = $("#up-main"), blocked = $("#dev-blocked"), signin = $("#dev-signin");
   if(!gate || !main) return;
   const signed = !!(state.user && !state.isGuest);
+  const ready = state.devLoaded === true, checking = $("#dev-checking");
   signin.hidden = signed;
-  gate.hidden = !(signed && !state.dev);
+  checking.hidden = !(signed && !ready);
+  gate.hidden = !(signed && ready && !state.dev);
   blocked.hidden = !(signed && state.dev && state.dev.blocked === true);
   main.hidden = !isDev();
   if(!gate.hidden && !state.devGateReady){ state.devGateReady = true; devGateInit(); }
@@ -4835,6 +5053,7 @@ $("#up-submit").addEventListener("click", async ()=>{
   state.upBusy = true;
   const btn = $("#up-submit"); btn.disabled = true;
   const now = Date.now();
+  let fast = isPro();   /* Pro developers: live without review */
   const payload = {
     name,
     version: $("#up-version").value.trim(),
@@ -4846,23 +5065,23 @@ $("#up-submit").addEventListener("click", async ()=>{
     screenshots: state.upShots.slice(),
     downloadType: $("#up-type").value,
     downloadUrl: url,
-    enabled: false,
+    enabled: fast,
     featured: false,
-    status: "pending",
+    status: fast ? "approved" : "pending",
     submittedBy: state.user.uid,
     submitterName: state.dev.name,
     createdAt: now,
     updatedAt: now
   };
   try{
-    await set(push(ref(db, "apps")), payload);
+    fast = await submitUpload("apps", payload, fast);
     ["#up-name","#up-version","#up-category","#up-desc","#up-notes","#up-instr","#up-url"].forEach(id=> $(id).value = "");
     $("#up-type").value = "direct_apk";
     $("#up-url-label").textContent = upUrlLabels.direct_apk;
     state.upIcon = ""; state.upShots = [];
     $("#up-icon-prev").hidden = true; $("#up-icon-btn").textContent = "Choose icon";
     renderUpShots();
-    toast("Submitted. It will appear after admin approval.", "success");
+    toast(fast ? "Published instantly — Pro fast-track." : "Submitted. It will appear after admin approval.", "success");
     renderMyUploads();
   }catch(e){
     err.textContent = "Upload failed. Check your connection and try again.";
@@ -4921,6 +5140,7 @@ $("#fu-submit").addEventListener("click", async ()=>{
   }
   state.fuBusy = true;
   const btn = $("#fu-submit"); btn.disabled = true;
+  let fast = isPro();   /* Pro developers: live without review */
   const payload = {
     title,
     promptText: text,
@@ -4928,17 +5148,17 @@ $("#fu-submit").addEventListener("click", async ()=>{
     fileName: $("#fu-filename").value.trim(),
     passwordMode: mode,
     zipPassword: password,
-    enabled: false,
-    status: "pending",
+    enabled: fast,
+    status: fast ? "approved" : "pending",
     submittedBy: state.user.uid,
     submitterName: state.dev.name,
     createdAt: Date.now()
   };
   try{
-    await set(push(ref(db, "zipPrompts")), payload);
+    fast = await submitUpload("zipPrompts", payload, fast);
     ["#fu-category","#fu-title","#fu-filename","#fu-text","#fu-pass"].forEach(id=> $(id).value = "");
     { const r0 = $("input[name=fu-pwmode][value=auto]"); if(r0) r0.checked = true; fuApplyMode(); }
-    toast("Submitted. It will appear after admin approval.", "success");
+    toast(fast ? "Published instantly — Pro fast-track." : "Submitted. It will appear after admin approval.", "success");
     renderMyUploads();
   }catch(e){
     err.textContent = "Upload failed. Check your connection and try again.";
@@ -5058,13 +5278,28 @@ const devSaveDraft = (d)=>{ try{ localStorage.setItem(devDraftKey(), JSON.string
 const devClearDraft = ()=>{ try{ localStorage.removeItem(devDraftKey()); }catch(e){} };
 const devNormWa = (v)=> { const t = String(v||"").trim(); return (t.startsWith("+") ? "+" : "") + t.replace(/\D/g, ""); };
 
+/* Developer account = one per Google account (developers/{uid}). It is remembered on this phone and re-checked on every sign-in,
+   so the account shows up by itself on any phone that signs in with the same Gmail. */
+const DEV_CACHE = "mt_dev_v1";
+function devCacheRead(uid){ try{ const o = JSON.parse(localStorage.getItem(DEV_CACHE) || "null"); return o && o.uid === uid ? o.rec : null; }catch(e){ return null; } }
+function devCacheWrite(uid, rec){ try{ if(rec) localStorage.setItem(DEV_CACHE, JSON.stringify({ uid, rec })); else localStorage.removeItem(DEV_CACHE); }catch(e){} }
 async function loadDeveloper(){
-  state.dev = null; state.devGateReady = false;
-  if(!state.user || state.isGuest) return;
+  state.devGateReady = false;
+  if(!state.user || state.isGuest){ state.dev = null; state.devLoaded = true; return; }
+  const uid = state.user.uid;
+  const cached = devCacheRead(uid);
+  if(cached){ state.dev = cached; state.devLoaded = true; applyUploadAvailability(); }   // a known account shows instantly
+  else { state.dev = null; state.devLoaded = false; }
   try{
-    const snap = await get(ref(db, `developers/${state.user.uid}`));
+    const snap = await get(ref(db, `developers/${uid}`));
     state.dev = snap.exists() ? snap.val() : null;
-  }catch(e){ state.dev = null; }
+    devCacheWrite(uid, state.dev);
+  }catch(e){
+    if(!cached) state.dev = null;      // offline or read blocked: keep what we already knew
+  }
+  state.devLoaded = true;
+  applyUploadAvailability();           // refresh the page now that the answer is in (this was missing)
+  renderMyUploads();
 }
 function devStep(n){ $("#dev-step1").hidden = n !== 1; $("#dev-step2").hidden = n !== 2; }
 function devGateInit(){
