@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0c">
+  <script>
+    /* Pro cache shared with the main app (Pro members skip every ad except the 320x50 banner) */
+    (function(w,d){var p=false;try{var o=JSON.parse(localStorage.getItem('mt_pro_v1')||'null');p=!!(o&&o.until>Date.now());}catch(e){}
+    w.__MT_PRO=p;if(p)d.documentElement.classList.add('is-pro');
+    w.mtAd=function(src,attr){if(!w.__MT_PRO)d.write('<script '+(attr||'')+' src="'+src+'"><\/script>');};})(window,document);
+  </script>
+  <title>MR Techlabe Studio</title>
+  
+  <!-- Fonts -->
+  <script>
+    /* Theme colours — same palette and storage key as the main app, so the colour you pick there is used here */
+    (function (win, doc) {
+      'use strict';
+      var STORAGE_KEY = 'mt_theme_v1';
+      var PALETTE = [
+        { id: 'cyan',    name: 'Cyan',    a: '#00e5ff', b: '#3a86ff' },
+        { id: 'violet',  name: 'Violet',  a: '#8b6cff', b: '#6c4cff' },
+        { id: 'emerald', name: 'Emerald', a: '#00e08a', b: '#00a86b' },
+        { id: 'rose',    name: 'Rose',    a: '#ff3d71', b: '#ff0055', pro: true },
+        { id: 'orange',  name: 'Orange',  a: '#ff9f1a', b: '#ff5e00', pro: true },
+        { id: 'magenta', name: 'Magenta', a: '#ff4fd8', b: '#b44cff', pro: true },
+        { id: 'yellow',  name: 'Yellow',  a: '#ffe600', b: '#ffb800', pro: true }
+      ];
+      function rgb(hex) { var n = parseInt(hex.replace('#', ''), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+      function lum(hex) { var c = rgb(hex); return (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255; }
+      function find(id) { for (var i = 0; i < PALETTE.length; i++) if (PALETTE[i].id === id) return PALETTE[i]; return PALETTE[0]; }
+      function current() {
+        try {
+          var s = find(localStorage.getItem(STORAGE_KEY));
+          return (s.pro && !win.__MT_PRO) ? PALETTE[0] : s;   /* colours 4-7 are Pro only */
+        } catch (e) { return PALETTE[0]; }
+      }
+      function apply(s) {
+        var r = doc.documentElement.style;
+        r.setProperty('--primary-accent', s.a);
+        r.setProperty('--primary-rgb', rgb(s.a).join(','));
+        r.setProperty('--secondary-accent', s.b);
+        r.setProperty('--secondary-rgb', rgb(s.b).join(','));
+        r.setProperty('--on-acc', (lum(s.a) + lum(s.b)) / 2 > 0.5 ? '#04121a' : '#ffffff');   /* readable text on accent buttons */
+      }
+      apply(current());
+      win.MtTheme = { PALETTE: PALETTE, current: current, refresh: function () { apply(current()); } };
+    })(window, document);
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Orbitron:wght@700;800&amp;family=Inter:wght@600&amp;display=swap" rel="stylesheet">
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+    window.AURA_CFG = {
+      "name": "MR Techlabe Studio",
+      "img": "../img/logo.png",
+      "color": "#e11d2e"
+    };
+  </script>
+</head>
+<body>
+
+  <!-- SVG Icons Definition -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></symbol>
+      <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 7V4h16v3M9 20h6M12 4v16"></path></symbol>
+      <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22M18 2l4 4-4 4M2 6h1.9c1.5 0 2.9.9 3.6 2.2M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8M18 14l4 4-4 4"></path></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2L7 14.2 2 9.3l6.9-1z"></path></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"></path></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></symbol>
+      <symbol id="i-flask" viewBox="0 0 24 24"><path d="M10 2v7.5L4.5 19a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 9.5V2M8.5 2h7M7 16h10"></path></symbol>
+      <symbol id="i-blank" viewBox="0 0 24 24"><path d="M5 3a2 2 0 0 0-2 2M19 3a2 2 0 0 1 2 2M21 19a2 2 0 0 1-2 2M5 21a2 2 0 0 1-2-2M9 3h1M9 21h1M14 3h1M14 21h1M3 9v1M21 9v1M3 14v1M21 14v1"></path></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"></path></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M4 16V5a2 2 0 0 1 2-2h11"></path></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"></path></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></symbol>
+      <symbol id="i-down" viewBox="0 0 24 24"><path d="M17 14V2M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"></path></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></symbol>
+      <symbol id="i-dl" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></symbol>
+      <symbol id="i-ul" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"></path></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"></path></symbol>
+      <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"></path></symbol>
+      <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"></path></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></symbol>
+    </defs>
+  </svg>
+
+  <!-- Top bar (same look as the main app) -->
+  <div class="mtbar" role="banner">
+    <div class="mtbar-in">
+      <a class="mtb-btn" href="../index.html" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+      <a class="mtb-brand" href="../index.html">
+        <span class="mtb-mark"><img src="../img/logo.png" alt=""></span>
+        <span class="mtb-text"><span class="mtb-name">Mr Techlab Studio</span><span class="mtb-tag">FF Name Generator</span></span>
+      </a>
+      <span class="mtb-sp"></span>
+      <a class="mtb-btn mtb-pro" href="../subscription.html" aria-label="Pro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 4 5-7 5 7 4-4-2 11H5L3 8z"/></svg></a>
+      <a class="mtb-btn mtb-av" id="mtAv" href="../profile.html" aria-label="Profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg></a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="logo"><img src="../img/logo.png" alt="MR Techlabe Studio" referrerpolicy="no-referrer"></div>
+      <div>
+        <div class="pname"><h1>MR Techlabe Studio</h1></div>
+        <p>Free Fire styles web</p>
+      </div>
+    </header>
+    
+    <div class="hr" role="separator"></div>
+
+    <!-- Ad spot 1: 320x50 banner (stays for Pro members too) -->
+    <div class="adbox keep">
+      <span class="adl">Sponsored</span>
+      <script type="text/javascript">
+        atOptions = {
+          'key' : 'c3447406b11d1c33694b3121ea2b21f0',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highrevenueformat.com/c3447406b11d1c33694b3121ea2b21f0/invoke.js"></script>
+    </div>
+    
+    <nav class="tabs" id="tabs">
+      <button class="tab on" data-p="p1"><svg class="i"><use href="#i-zap"></use></svg>Auto</button>
+      <button class="tab" data-p="p2"><svg class="i"><use href="#i-shuffle"></use></svg>Generator</button>
+      <button class="tab" data-p="p6"><svg class="i"><use href="#i-grid"></use></svg>Font</button>
+      <button class="tab" data-p="p3"><svg class="i"><use href="#i-star"></use></svg>Icon</button>
+      <button class="tab" data-p="p7"><svg class="i"><use href="#i-blank"></use></svg>Space</button>
+      <span id="favc" hidden="">0</span>
+    </nav>
+    
+    <div class="hr soft" role="separator"></div>
+    
+    <div hidden="">
+      <input type="checkbox" id="exp">
+      <input type="checkbox" id="emo">
+      <input type="checkbox" id="dbl">
+      <input type="number" id="maxlen" value="12">
+    </div>
+
+    <!-- Panel 1: Auto -->
+    <section class="panel on" id="p1">
+      <div hidden="">
+        <input id="inp">
+        <button id="goStyle"></button>
+        <b id="c1"></b>
+        <b id="tot1"></b>
+        <button id="more1"></button>
+      </div>
+      <div id="out1" class="grid"></div>
+    </section>
+
+    <!-- Panel 2: Generator -->
+    <section class="panel" id="p2">
+      <div class="searchbar">
+        <label class="search">
+          <svg class="i"><use href="#i-search"></use></svg>
+          <input type="text" id="kw" placeholder="Type your name" maxlength="12" autocomplete="off" spellcheck="false">
+          <span class="sr">
+            <span class="sc"><b id="kwn">0</b>/12</span>
+            <button type="button" class="sx" id="kwx" aria-label="Clear" hidden=""><svg class="i"><use href="#i-x"></use></svg></button>
+          </span>
+        </label>
+      </div>
+      <div hidden="">
+        <select id="cat"><option value="all">All</option></select>
+        <input type="checkbox" id="auto">
+        <button id="gen"></button>
+        <button id="more"></button>
+        <b id="combos"></b>
+        <b id="made"></b>
+      </div>
+      <div id="out2" class="grid"></div>
+    </section>
+
+    <!-- Panel 6: Font -->
+    <section class="panel" id="p6">
+      <div class="adslot"></div>
+      <div hidden="">
+        <input id="bld">
+        <button id="bldBack"></button>
+        <button id="bldClr"></button>
+        <button id="bldCopy"></button>
+        <button id="bldDl"></button>
+        <b id="bldN"></b>
+        <span id="bldTag"></span>
+      </div>
+      <div class="box" id="azList"></div>
+    </section>
+
+    <!-- Panel 3: Icon -->
+    <section class="panel" id="p3">
+      <div class="adslot"></div>
+      <div class="box"><div id="symList"></div></div>
+      <div hidden="">
+        <input id="labInp">
+        <button id="labCopy"></button>
+        <button id="labClr"></button>
+        <button id="labAllGood"></button>
+        <button id="labAllBad"></button>
+        <div id="tiles"></div>
+        <b id="gN"></b>
+        <b id="bN"></b>
+        <button id="resetLab"></button>
+        <button id="expLab"></button>
+        <button id="impLab"></button>
+      </div>
+    </section>
+
+    <!-- Panel 7: Space -->
+    <section class="panel" id="p7">
+      <div class="box spc">
+        <div class="sec">Space</div>
+        <div class="sprow">
+          <button class="spbox" id="spBox" aria-label="Copy blank space"><span class="spch">ㅤ</span></button>
+          <div class="spin"><b>Blank space</b><span>Invisible character</span></div>
+          <button class="spbtn" id="spCopy"><svg class="i"><use href="#i-copy"></use></svg>Copy</button>
+        </div>
+      </div>
+      <div class="adslot"></div>
+    </section>
+
+    <div hidden="">
+      <input id="blankInp">
+      <button id="blankGo"></button>
+      <div id="out4"></div>
+    </div>
+    
+    <div hidden="">
+      <div id="out5"></div>
+      <button id="favClr"></button>
+      <button id="bldFav"></button>
+      <button id="favCopy"></button>
+    </div>
+
+    <!-- Ad spot 7: native banner -->
+    <div class="adbox">
+      <span class="adl">Sponsored</span>
+      <script>mtAd("https://pl31405462.profitableratecpmnetwork.com/0a1073280d0977a6f3f56e3393d8b4bd/invoke.js",'async="async" data-cfasync="false"')</script>
+      <div id="container-0a1073280d0977a6f3f56e3393d8b4bd"></div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <!-- Pro dialog -->
+  <div class="mdl" id="proM" hidden>
+    <div class="mdl-card" role="dialog" aria-modal="true" aria-labelledby="proT">
+      <div class="mdl-ic"><svg class="i"><use href="#i-lock"></use></svg></div>
+      <h3 id="proT">Premium style</h3>
+      <p>This one is for Pro members. Unlock every premium name, font and symbol with MR Techlab Pro.</p>
+      <a class="mdl-go" href="../subscription.html">Get Pro</a>
+      <button type="button" class="mdl-x" data-x>Not now</button>
+    </div>
+  </div>
+
+  <!-- Adsterra popunder + social bar (hidden for Pro members) -->
+  <script>mtAd("https://pl31405166.profitableratecpmnetwork.com/f6/57/db/f657db1113a6bcf4fab49d073628017e.js")</script>
+  <script>mtAd("https://pl31405461.profitableratecpmnetwork.com/0c/64/3e/0c643e1b095de2862201f38c0ba23e36.js")</script>
+
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
