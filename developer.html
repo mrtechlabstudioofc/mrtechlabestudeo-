@@ -3130,6 +3130,7 @@ html.is-pro .detail-ad-slot{display:none!important}
             <input type="file" id="fu-import" hidden>
           </div>
           <div class="field"><label for="fu-category">Category</label><input id="fu-category" list="fu-cats" maxlength="40" placeholder="e.g. Google Studio" autocomplete="off"><datalist id="fu-cats"></datalist></div>
+          <div class="field"><label for="fu-sub">Sub-category (optional)</label><input id="fu-sub" list="fu-subs" maxlength="30" placeholder="e.g. Admin or User" autocomplete="off"><datalist id="fu-subs"><option value="Admin"></option><option value="User"></option></datalist></div>
           <div class="field"><label for="fu-title">Display name *</label><input id="fu-title" maxlength="80" placeholder="e.g. Home page" autocomplete="off"></div>
           <div class="field"><label for="fu-filename">File name</label><input id="fu-filename" maxlength="80" placeholder="e.g. index.html" autocomplete="off"></div>
           <div class="field"><label for="fu-text">Text *</label><textarea id="fu-text" rows="9" placeholder="The text inside the file"></textarea></div>
@@ -4162,10 +4163,10 @@ function renderPromptGrid(){
 /* ===================== FILES (ZIP) ===================== */
 state.zipPrompts = []; state.zipLoaded = false; state.zipEdits = {};
 function zpParts(text){
-  const re = /\{\{([^}]*)\}\}|®®([^®]*)®®/g, parts = []; let last = 0, m;
+  const re = /\{\{([^}]*)\}\}|®®([^®]*)®®|©©([^©]*)©©/g, parts = []; let last = 0, m;
   while((m = re.exec(text))){
     if(m.index > last) parts.push({t:text.slice(last, m.index)});
-    parts.push({e:(m[1] !== undefined ? m[1] : m[2])}); last = m.index + m[0].length;
+    parts.push({e:(m[1] !== undefined ? m[1] : m[2] !== undefined ? m[2] : m[3])}); last = m.index + m[0].length;
   }
   if(last < text.length) parts.push({t:text.slice(last)});
   return parts;
@@ -5248,6 +5249,7 @@ $("#fu-submit").addEventListener("click", async ()=>{
     title,
     promptText: text,
     category: $("#fu-category").value.trim(),
+    ...($("#fu-sub").value.trim() ? { subCategory: $("#fu-sub").value.trim() } : {}),
     fileName: $("#fu-filename").value.trim(),
     passwordMode: mode,
     zipPassword: password,
@@ -5259,7 +5261,7 @@ $("#fu-submit").addEventListener("click", async ()=>{
   };
   try{
     fast = await submitUpload("zipPrompts", payload, fast);
-    ["#fu-category","#fu-title","#fu-filename","#fu-text","#fu-pass"].forEach(id=> $(id).value = "");
+    ["#fu-category","#fu-sub","#fu-title","#fu-filename","#fu-text","#fu-pass"].forEach(id=> $(id).value = "");
     { const r0 = $("input[name=fu-pwmode][value=auto]"); if(r0) r0.checked = true; fuApplyMode(); }
     toast(fast ? "Published instantly — Pro fast-track." : "Submitted. It will appear after admin approval.", "success");
     renderMyUploads();

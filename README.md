@@ -13,6 +13,7 @@ files.html        Files (edit {{ }} + copy / ZIP download)
 developer.html    Developer account + upload
 downloads.html    My downloads
 profile.html      Profile
+subscription.html Go Pro: plans, bKash/Nagad request, my requests (see SUBSCRIPTION-SETUP.md)
 privacy / terms / about / contact .html
 img/logo.png      Logo
 sw.js, manifest.json   PWA

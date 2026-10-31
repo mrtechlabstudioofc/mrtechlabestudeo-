@@ -4059,10 +4059,10 @@ function renderPromptGrid(){
 /* ===================== FILES (ZIP) ===================== */
 state.zipPrompts = []; state.zipLoaded = false; state.zipEdits = {};
 function zpParts(text){
-  const re = /\{\{([^}]*)\}\}|®®([^®]*)®®/g, parts = []; let last = 0, m;
+  const re = /\{\{([^}]*)\}\}|®®([^®]*)®®|©©([^©]*)©©/g, parts = []; let last = 0, m;
   while((m = re.exec(text))){
     if(m.index > last) parts.push({t:text.slice(last, m.index)});
-    parts.push({e:(m[1] !== undefined ? m[1] : m[2])}); last = m.index + m[0].length;
+    parts.push({e:(m[1] !== undefined ? m[1] : m[2] !== undefined ? m[2] : m[3])}); last = m.index + m[0].length;
   }
   if(last < text.length) parts.push({t:text.slice(last)});
   return parts;

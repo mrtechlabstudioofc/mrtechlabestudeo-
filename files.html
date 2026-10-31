@@ -2956,6 +2956,38 @@ html.is-pro .detail-mid-ad,
 html.is-pro .detail-ad-slot{display:none!important}
 .pf-chip.pro{color:#2a1a00;font-weight:800;letter-spacing:.8px;background:linear-gradient(135deg,#ffe27a,#ffb800 55%,#ff9500);border-color:rgba(255,214,102,.9);box-shadow:0 0 14px rgba(255,184,0,.45)}
 .pro-tag{display:inline-block;font-size:.58rem;font-weight:800;letter-spacing:.8px;line-height:1;padding:3px 6px;border-radius:6px;color:#2a1a00;background:linear-gradient(135deg,#ffe27a,#ffb800 55%,#ff9500);vertical-align:middle;margin-left:6px;-webkit-text-fill-color:#2a1a00}
+
+/* ---- Files: guided editing + sub-category ZIPs ---- */
+.pc-item-row{display:flex;align-items:center;gap:12px}
+.pc-item-row .pc-meta{flex:1;min-width:0}
+.pc-state{width:22px;height:22px;border-radius:50%;flex-shrink:0;position:relative;border:2px solid rgba(var(--primary-rgb),.5);transition:all .2s}
+.pc-item[data-st="part"] .pc-state{border-color:#FFB454;background:radial-gradient(circle,#FFB454 36%,transparent 40%)}
+.pc-item[data-st="done"] .pc-state{border-color:#3FE0C5;background:#3FE0C5}
+.pc-item[data-st="done"] .pc-state::after{content:'';position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #02070f;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.pc-ready{font-size:.72rem;font-weight:700;color:#3FE0C5;padding:4px 10px;border:1px solid rgba(63,224,197,.4);border-radius:999px;white-space:nowrap}
+.pc-sub{display:flex;flex-direction:column;gap:10px}
+.pc-sub+.pc-sub{margin-top:8px;padding-top:16px;border-top:1px dashed rgba(var(--primary-rgb),.28)}
+.pc-sub-head{display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:.98rem;letter-spacing:.4px;color:var(--primary-accent);text-shadow:0 0 10px rgba(var(--primary-rgb),.35)}
+.pc-ready-count{font-size:.76rem;color:var(--text-dim);text-align:center}
+[data-pzip]:disabled{opacity:.55;cursor:not-allowed}
+.pc-next{animation:gsPulse 1.2s ease 2}
+@keyframes gsPulse{0%,100%{box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 0 30px rgba(var(--primary-rgb),.04)}50%{box-shadow:0 0 0 2px var(--primary-accent),0 0 26px rgba(var(--primary-rgb),.55)}}
+.gs{display:flex;flex-direction:column;gap:10px}
+.gs-top{display:flex;align-items:center;gap:10px}
+.gs-step{font-size:.72rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--primary-accent);white-space:nowrap}
+.gs-bar{flex:1;height:5px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden}
+.gs-bar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--primary-accent),var(--secondary-accent));transition:width .3s}
+.gs-ctx{margin:0;padding:12px;border-radius:12px;background:#050f1d;border:1px solid rgba(var(--primary-rgb),.25);color:var(--text-dim);font:12.5px/1.65 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:200px;overflow:auto}
+.gs-cur{background:rgba(var(--primary-rgb),.28);color:#fff;font-weight:700;border-radius:4px;padding:1px 3px;box-shadow:0 0 0 2px var(--primary-accent),0 0 16px rgba(var(--primary-rgb),.55);animation:gsGlow 1.4s ease-in-out infinite}
+@keyframes gsGlow{50%{box-shadow:0 0 0 2px var(--primary-accent),0 0 26px rgba(var(--primary-rgb),.9)}}
+.gs-done{color:#3FE0C5}
+.gs-todo{color:#FFB454;border-bottom:1px dashed #FFB454}
+.gs-label{font-size:.8rem;color:var(--text-dim)}
+.gs-input{width:100%;display:block;min-height:46px;padding:10px 12px;border-radius:10px;font-size:.95rem;resize:none}
+.gs-hint{font-size:.76rem;color:#FFB454}
+.gs-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gs-actions .btn-primary{min-width:112px}
+.gs-wait{opacity:.8}
 </style>
 </head>
 <body data-page-view="files">
@@ -4059,10 +4091,10 @@ function renderPromptGrid(){
 /* ===================== FILES (ZIP) ===================== */
 state.zipPrompts = []; state.zipLoaded = false; state.zipEdits = {};
 function zpParts(text){
-  const re = /\{\{([^}]*)\}\}|®®([^®]*)®®/g, parts = []; let last = 0, m;
+  const re = /\{\{([^}]*)\}\}|®®([^®]*)®®|©©([^©]*)©©/g, parts = []; let last = 0, m;
   while((m = re.exec(text))){
     if(m.index > last) parts.push({t:text.slice(last, m.index)});
-    parts.push({e:(m[1] !== undefined ? m[1] : m[2])}); last = m.index + m[0].length;
+    parts.push({e:(m[1] !== undefined ? m[1] : m[2] !== undefined ? m[2] : m[3])}); last = m.index + m[0].length;
   }
   if(last < text.length) parts.push({t:text.slice(last)});
   return parts;
@@ -4083,13 +4115,12 @@ function zpEditorHtml(p){
 }
 
 function zpItemHtml(p){
+  const s = zpStats(p);
   return `<div class="pc-item" data-pid="${escapeHtml(p.id)}">
     <div class="pc-item-row">
-      <label class="pc-check">
-        <input type="checkbox" data-pz><span class="pc-box" aria-hidden="true"></span>
-        <div class="pc-meta"><span class="pc-title">${escapeHtml(p.title||"Untitled")}${p.proOnly ? '<span class="pro-tag">PRO</span>' : ""}</span><span class="pc-prog"></span><span class="pc-by">by ${escapeHtml(devLabel(p))}</span></div>
-      </label>
-      <button class="btn btn-ghost btn-sm" data-pedit>Edit</button>
+      <span class="pc-state" aria-hidden="true"></span>
+      <div class="pc-meta"><span class="pc-title">${escapeHtml(p.title||"Untitled")}${p.proOnly ? '<span class="pro-tag">PRO</span>' : ""}</span><span class="pc-prog"></span><span class="pc-by">by ${escapeHtml(devLabel(p))}</span></div>
+      ${s.total ? '<button class="btn btn-ghost btn-sm" data-pedit>Edit</button>' : '<span class="pc-ready" title="No {{ }}, ®® ®® or ©© ©© edit spots found in this file">No edit spots</span>'}
     </div>
     <div class="pc-editor" hidden></div>
   </div>`;
@@ -4111,6 +4142,111 @@ function zpProgress(p, t){
   if(!s.total){ t.textContent = "No edits needed"; t.dataset.s = "none"; return; }
   t.textContent = left ? `${s.done}/${s.total} edited · ${left} left` : `All ${s.total} edited ✓`;
   t.dataset.s = left ? (s.done ? "part" : "todo") : "done";
+}
+
+/* ===================== FILES: guided editing (one edit spot at a time) ===================== */
+state.zipSaved = {};     // fileId -> true once the guided edit was saved
+state.zipStep = {};      // fileId -> the spot being edited right now
+const zpSpotList = p => zpParts(p.promptText || "").filter(x => x.e !== undefined);
+const gsEdited = (p, k) => {
+  const sp = zpSpotList(p)[k], v = (state.zipEdits[p.id] || {})[k];
+  return !!sp && v !== undefined && v !== sp.e && String(v).trim() !== "";
+};
+const zpFileReady = p => { const s = zpStats(p); return s.total === 0 || (!!state.zipSaved[p.id] && s.done === s.total); };
+function gsFirstTodo(p){ const n = zpSpotList(p).length; for(let k = 0; k < n; k++) if(!gsEdited(p, k)) return k; return 0; }
+
+/* the text around the current spot: earlier spots in green, later ones dashed, the current one glowing */
+function gsContext(p, cur){
+  const ed = state.zipEdits[p.id] || {}; const segs = []; let k = 0;
+  zpParts(p.promptText || "").forEach(x => {
+    if(x.t !== undefined){ segs.push({ t: x.t }); return; }
+    const done = ed[k] !== undefined && ed[k] !== x.e && String(ed[k]).trim() !== "";
+    const v = ed[k] !== undefined ? ed[k] : x.e;
+    segs.push({ t: v === "" ? "\u2423" : v, c: k === cur ? "gs-cur" : (done ? "gs-done" : "gs-todo") });
+    k++;
+  });
+  const ci = segs.findIndex(s => s.c === "gs-cur");
+  const MAXC = 240, MAXL = 4, before = [], after = [];
+  let n = 0, ln = 0, cutB = false, cutA = false;
+  for(let i = ci - 1; i >= 0; i--){
+    if(n >= MAXC || ln >= MAXL){ cutB = true; break; }
+    let tx = segs[i].t;
+    if(n + tx.length > MAXC){ tx = tx.slice(tx.length - (MAXC - n)); cutB = true; }
+    const parts = tx.split("\n");
+    if(ln + parts.length - 1 > MAXL){ tx = parts.slice(parts.length - 1 - (MAXL - ln)).join("\n"); cutB = true; }
+    before.unshift({ t: tx, c: segs[i].c }); n += tx.length; ln += tx.split("\n").length - 1;
+    if(cutB) break;
+  }
+  n = 0; ln = 0;
+  for(let i = ci + 1; i < segs.length; i++){
+    if(n >= MAXC || ln >= MAXL){ cutA = true; break; }
+    let tx = segs[i].t;
+    if(n + tx.length > MAXC){ tx = tx.slice(0, MAXC - n); cutA = true; }
+    const parts = tx.split("\n");
+    if(ln + parts.length - 1 > MAXL){ tx = parts.slice(0, MAXL - ln + 1).join("\n"); cutA = true; }
+    after.push({ t: tx, c: segs[i].c }); n += tx.length; ln += tx.split("\n").length - 1;
+    if(cutA) break;
+  }
+  const h = s => s.c ? `<span class="${s.c}">${escapeHtml(s.t)}</span>` : escapeHtml(s.t);
+  return `<pre class="gs-ctx">${cutB ? "\u2026" : ""}${before.map(h).join("")}${h(segs[ci])}${after.map(h).join("")}${cutA ? "\u2026" : ""}</pre>`;
+}
+function gsHtml(p){
+  const spots = zpSpotList(p), N = spots.length;
+  let k = state.zipStep[p.id] || 0; if(k >= N) k = N - 1; if(k < 0) k = 0;
+  state.zipStep[p.id] = k;
+  const ed = state.zipEdits[p.id] || {}, def = spots[k].e;
+  const val = ed[k] !== undefined ? ed[k] : def;
+  const ok = gsEdited(p, k), last = k === N - 1;
+  return `<div class="gs">
+    <div class="gs-top"><span class="gs-step">Step ${k + 1} of ${N}</span><div class="gs-bar"><i style="width:${Math.round((k + (ok ? 1 : 0)) / N * 100)}%"></i></div></div>
+    ${gsContext(p, k)}
+    <label class="gs-label">Replace the highlighted part with your own:</label>
+    <textarea class="pe-input gs-input" data-gs="${escapeHtml(p.id)}" rows="1" spellcheck="false" placeholder="${escapeHtml(def)}">\n${escapeHtml(val)}</textarea>
+    <div class="gs-hint">${ok ? "Looks good \u2014 tap " + (last ? "Save" : "Next") + "." : "Change this value to continue."}</div>
+    <div class="gs-actions">
+      ${k > 0 ? '<button class="btn btn-ghost btn-sm" data-gs-back>Back</button>' : "<span></span>"}
+      <button class="btn btn-primary btn-sm${ok ? "" : " gs-wait"}" data-gs-next>${ok ? (last ? "Save" : "Next") : "Edit"}</button>
+    </div>
+  </div>`;
+}
+function gsLive(box, p){
+  const N = zpSpotList(p).length, k = state.zipStep[p.id] || 0, ok = gsEdited(p, k), last = k === N - 1;
+  const ctx = box.querySelector(".gs-ctx"); if(ctx) ctx.outerHTML = gsContext(p, k);
+  box.querySelector(".gs-hint").textContent = ok ? "Looks good \u2014 tap " + (last ? "Save" : "Next") + "." : "Change this value to continue.";
+  const nb = box.querySelector("[data-gs-next]");
+  nb.textContent = ok ? (last ? "Save" : "Next") : "Edit";
+  nb.classList.toggle("gs-wait", !ok);
+  box.querySelector(".gs-bar i").style.width = Math.round((k + (ok ? 1 : 0)) / N * 100) + "%";
+}
+function gsFocus(box){ const ta = box.querySelector("textarea"); if(ta){ try{ ta.focus({ preventScroll: true }); ta.select(); }catch(e){} } }
+
+function zipProgress(p, t){
+  if(!p || !t) return;
+  const s = zpStats(p);
+  if(!s.total){ t.textContent = "No edits needed"; t.dataset.s = "done"; return; }
+  if(zpFileReady(p)){ t.textContent = `Saved \u2713 \u00b7 ${s.total} edit${s.total > 1 ? "s" : ""}`; t.dataset.s = "done"; return; }
+  const left = s.total - s.done;
+  t.textContent = s.done ? `${s.done}/${s.total} edited \u00b7 ${left} left` : `${s.total} edit${s.total > 1 ? "s" : ""} needed`;
+  t.dataset.s = s.done ? "part" : "todo";
+}
+function zipRefresh(wrap){
+  wrap.querySelectorAll(".pc-item").forEach(el => {
+    const p = state.zipPrompts.find(x => x.id === el.dataset.pid); if(!p) return;
+    const s = zpStats(p), ready = zpFileReady(p);
+    el.dataset.st = ready ? "done" : (s.done ? "part" : "todo");
+    zipProgress(p, el.querySelector(".pc-prog"));
+    const b = el.querySelector("[data-pedit]"), box = el.querySelector(".pc-editor");
+    if(b && box.hidden) b.textContent = ready ? "Edit again" : "Edit";
+  });
+  wrap.querySelectorAll(".pc-sub").forEach(sec => {
+    const ps = [...sec.querySelectorAll(".pc-item")].map(el => state.zipPrompts.find(x => x.id === el.dataset.pid)).filter(Boolean);
+    const ready = ps.filter(zpFileReady).length, all = ready === ps.length, sub = sec.dataset.sub || "";
+    const btn = sec.querySelector("[data-pzip]");
+    btn.disabled = !all;
+    btn.innerHTML = all ? `Download ZIP${sub ? " \u2014 " + escapeHtml(sub) : ""}${(!proNow() && ps.length > 1) ? '<span class="pro-tag">PRO</span>' : ""}`
+                        : `Finish all files to download (${ready}/${ps.length})`;
+    sec.querySelector(".pc-ready-count").textContent = `${ready} of ${ps.length} file${ps.length > 1 ? "s" : ""} ready`;
+  });
 }
 
 function zpRefresh(wrap){
@@ -4167,32 +4303,64 @@ async function getFilePassword(p){
   return rec.password;
 }
 
-async function downloadZipPack(catName, items){
+/* One password for the WHOLE ZIP, created the first time a user downloads it and reused after that.
+   It is stored under the ZIP's first file (same place and shape as before), so the uploader / admin can still see it. */
+async function getZipPassword(cat, sub, items, zipName){
+  const anchor = items[0], uid = state.user.uid;
+  const r = ref(db, `filePasswords/${anchor.id}/${uid}`);
+  const fresh = {
+    password: genFilePw(),
+    fileId: anchor.id,
+    fileTitle: cat + (sub ? " / " + sub : "") + " (ZIP)",
+    fileName: zipName,
+    category: cat,
+    ownerUid: anchor.submittedBy || "admin",
+    ownerName: anchor.submittedBy ? (anchor.submitterName || "Developer") : "Admin",
+    userName: state.user.displayName || state.user.email || "User",
+    userPhoto: getAvatarUrl() || "",
+    count: 0,
+    createdAt: Date.now()
+  };
+  const res = await runTransaction(r, cur => cur ? undefined : fresh);
+  let rec = res.snapshot.val();
+  if(!rec || !rec.password){ const snap = await get(r); rec = snap.val(); }
+  try{ await set(ref(db, `filePasswords/${anchor.id}/${uid}/count`), increment(1)); }catch(e){}
+  try{ await update(r, { fileTitle: fresh.fileTitle, fileName: zipName }); }catch(e){}     // label it as the ZIP (ignored if the rules say no)
+  return rec.password;
+}
+/* all files "none" -> no password; all files share one custom password -> that one; anything else -> the automatic one */
+async function zipPasswordFor(cat, sub, items, zipName){
+  const mode = p => p.passwordMode === "custom" ? "custom" : p.passwordMode === "none" ? "none" : "auto";
+  if(items.every(p => mode(p) === "none")) return "";
+  const customs = new Set(items.filter(p => mode(p) === "custom" && p.zipPassword).map(p => String(p.zipPassword)));
+  if(items.every(p => mode(p) === "custom") && customs.size === 1) return [...customs][0];
+  return await getZipPassword(cat, sub, items, zipName);
+}
+
+async function downloadZipPack(catName, items, sub){
   if(dlLeft() <= 0){ showProDialog("limit"); return; }
   try{
-    toast("Preparing ZIP…");
+    toast("Preparing ZIP\u2026");
     await loadZipLib();
-    const writer = new zip.ZipWriter(new zip.BlobWriter("application/zip"));
+    sub = (sub || "").trim();
+    const zipName = (catName + (sub ? " - " + sub : "")).replace(/[\\/:*?"<>|]/g, "_") + ".zip";
+    const pw = await zipPasswordFor(catName, sub, items, zipName);
+    const writer = new zip.ZipWriter(new zip.BlobWriter("application/zip"), pw ? { password: pw } : {});
     const used = new Set();
-    let lockedAuto = false;
     for(const p of items){
       let name = ((p.fileName||"").trim() || ((p.title||"file").trim() + ".txt")).replace(/[\\/:*?"<>|]/g, "_");
       if(used.has(name)){ const i = name.lastIndexOf("."); let n = 2, c; do{ c = i > 0 ? `${name.slice(0,i)} (${n})${name.slice(i)}` : `${name} (${n})`; n++; }while(used.has(c)); name = c; }
       used.add(name);
-      const mode = p.passwordMode === "custom" ? "custom" : p.passwordMode === "none" ? "none" : "auto";
-      const opts = {};
-      if(mode === "custom" && p.zipPassword) opts.password = String(p.zipPassword);
-      else if(mode === "auto"){ opts.password = await getFilePassword(p); lockedAuto = true; }
-      await writer.add(name, new zip.TextReader(zpBuild(p)), opts);
+      await writer.add(name, new zip.TextReader(zpBuild(p)), pw ? { password: pw } : {});
     }
     const blob = await writer.close();
     useDownload();
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = catName.replace(/[\\/:*?"<>|]/g, "_") + ".zip";
+    a.download = zipName;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=> URL.revokeObjectURL(a.href), 4000);
-    toast(lockedAuto ? "ZIP downloaded. Locked files need a password — ask the uploader." : "ZIP downloaded.", "success");
+    toast(pw ? "ZIP downloaded. One password opens every file \u2014 ask the uploader." : "ZIP downloaded.", "success");
   }catch(err){ toast("ZIP failed. Check your internet connection and try again.", "error"); }
 }
 
@@ -4212,6 +4380,15 @@ async function loadZipPrompts(){
   }
 }
 
+function zipGroups(){
+  const map = new Map();
+  state.zipPrompts.forEach(p => {
+    const c = (p.category || "").trim() || "General", s = (p.subCategory || "").trim();
+    if(!map.has(c)) map.set(c, new Map());
+    const m = map.get(c); if(!m.has(s)) m.set(s, []); m.get(s).push(p);
+  });
+  return [...map.entries()].map(([c, m]) => [c, [...m.entries()].sort((a, b) => a[0] === b[0] ? 0 : a[0] === "" ? 1 : b[0] === "" ? -1 : a[0].localeCompare(b[0]))]);
+}
 function renderZipGrid(){
   const wrap = $("#file-grid");
   if(!wrap) return;
@@ -4219,58 +4396,109 @@ function renderZipGrid(){
     wrap.innerHTML = emptyState("No files yet", "Files added by the team will show up here.");
     return;
   }
-  const map = new Map();
-  state.zipPrompts.forEach(p=>{ const c = (p.category||"").trim() || "General"; if(!map.has(c)) map.set(c, []); map.get(c).push(p); });
-  const groups = [...map.entries()];
-  wrap.innerHTML = groups.map(([cat, items], gi)=>`<div class="host-card pc-cat" data-gi="${gi}">
-    <button class="pc-head" data-pcat><span class="pc-folder">${ICON_FOLDER}</span><span class="pc-cat-name">${escapeHtml(cat)}</span><span class="pc-count">${items.length}</span></button>
+  const groups = zipGroups();
+  wrap.innerHTML = groups.map(([cat, subs], gi) => {
+    const total = subs.reduce((a, s) => a + s[1].length, 0);
+    return `<div class="host-card pc-cat" data-gi="${gi}">
+    <button class="pc-head" data-pcat><span class="pc-folder">${ICON_FOLDER}</span><span class="pc-cat-name">${escapeHtml(cat)}</span><span class="pc-count">${total} file${total > 1 ? "s" : ""}</span></button>
     <div class="pc-body" hidden>
-      <label class="pc-all"><input type="checkbox" data-pall><span class="pc-box" aria-hidden="true"></span><span>Select all</span></label>
-      ${items.map(zpItemHtml).join("")}
-      <button class="btn btn-primary btn-block" data-pzip>Download ZIP (all)</button>
+      ${subs.map(([sub, items], si) => `<div class="pc-sub" data-si="${si}" data-sub="${escapeHtml(sub)}">
+        ${sub ? `<div class="pc-sub-head"><span>${escapeHtml(sub)}</span><span class="pc-count">${items.length} file${items.length > 1 ? "s" : ""}</span></div>` : ""}
+        ${items.map(zpItemHtml).join("")}
+        <div class="pc-ready-count"></div>
+        <button class="btn btn-primary btn-block" data-pzip disabled>Download ZIP</button>
+      </div>`).join("")}
     </div>
-  </div>`).join("");
-  const byId = id => state.zipPrompts.find(x=>x.id===id);
+  </div>`;
+  }).join("");
+  const byId = id => state.zipPrompts.find(x => x.id === id);
+  const closeEditor = item => {
+    const box = item.querySelector(".pc-editor"); if(!box) return;
+    box.hidden = true; box.innerHTML = "";
+  };
+  /* after a file is saved: point the user at the next unfinished file (or at the Download button) */
+  const advance = (item, p) => {
+    const sec = item.closest(".pc-sub");
+    const next = [...sec.querySelectorAll(".pc-item")].find(el => !zpFileReady(byId(el.dataset.pid)));
+    if(next){
+      toast("Saved \u2014 next: " + (byId(next.dataset.pid).title || "next file"), "success");
+      next.classList.add("pc-next");
+      next.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => next.classList.remove("pc-next"), 2600);
+    }else{
+      toast("All files are ready \u2014 download your ZIP.", "success");
+      const btn = sec.querySelector("[data-pzip]");
+      btn.classList.add("pc-next"); btn.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => btn.classList.remove("pc-next"), 2600);
+    }
+  };
   wrap.onclick = (e)=>{
     const head = e.target.closest("[data-pcat]");
     if(head){ const b = head.nextElementSibling; b.hidden = !b.hidden; head.classList.toggle("open", !b.hidden); return; }
     const item = e.target.closest(".pc-item");
-    const edit = e.target.closest("[data-pedit]");
-    if(edit && item){
-      const fp = byId(item.dataset.pid);
-      if(fp && fp.proOnly && !proNow()){ showProDialog("proonly"); return; }
-      const box = item.querySelector(".pc-editor");
-      if(!box.hidden){ box.hidden = true; box.innerHTML = ""; edit.textContent = "Edit"; return; }
-      adGate("fe:"+item.dataset.pid, ()=>{ box.innerHTML = zpEditorHtml(byId(item.dataset.pid)); box.hidden = false; growAll(box); edit.textContent = "Done"; }, true);
+
+    const nx = e.target.closest("[data-gs-next]");
+    if(nx && item){
+      const p = byId(item.dataset.pid), box = item.querySelector(".pc-editor");
+      const k = state.zipStep[p.id] || 0, N = zpSpotList(p).length;
+      if(!gsEdited(p, k)){ gsFocus(box); return; }                       // still the "Edit" button: change the highlighted part first
+      if(k < N - 1){ state.zipStep[p.id] = k + 1; box.innerHTML = gsHtml(p); growAll(box); gsFocus(box); zipRefresh(wrap); return; }
+      state.zipSaved[p.id] = true;                                         // last spot: Save
+      closeEditor(item); zipRefresh(wrap); advance(item, p);
       return;
     }
+    const bk = e.target.closest("[data-gs-back]");
+    if(bk && item){
+      const p = byId(item.dataset.pid), box = item.querySelector(".pc-editor");
+      state.zipStep[p.id] = Math.max(0, (state.zipStep[p.id] || 0) - 1);
+      box.innerHTML = gsHtml(p); growAll(box); gsFocus(box);
+      return;
+    }
+
+    const edit = e.target.closest("[data-pedit]");
+    if(edit && item){
+      const p = byId(item.dataset.pid);
+      if(p && p.proOnly && !proNow()){ showProDialog("proonly"); return; }
+      const box = item.querySelector(".pc-editor");
+      if(!box.hidden){ closeEditor(item); zipRefresh(wrap); return; }
+      adGate("fe:" + p.id, () => {
+        try{
+          wrap.querySelectorAll(".pc-item").forEach(el => { if(el !== item && !el.querySelector(".pc-editor").hidden){ closeEditor(el); } });
+          state.zipStep[p.id] = gsFirstTodo(p);
+          box.innerHTML = gsHtml(p); box.hidden = false; growAll(box);
+          edit.textContent = "Close";
+          zipRefresh(wrap);
+          item.scrollIntoView({ behavior: "smooth", block: "start" });
+          gsFocus(box);
+        }catch(err){ console.error(err); toast("Couldn't open the editor. Please reload the page.", "error"); }
+      }, true);
+      return;
+    }
+
     const zbtn = e.target.closest("[data-pzip]");
     if(zbtn){
-      const card = zbtn.closest(".pc-cat"), [cat, items] = groups[+card.dataset.gi];
-      const picked = [...card.querySelectorAll(".pc-item")].filter(el=> el.querySelector("[data-pz]").checked).map(el=> byId(el.dataset.pid));
+      if(zbtn.disabled) return;
+      const sec = zbtn.closest(".pc-sub"), card = zbtn.closest(".pc-cat");
+      const [cat, subs] = groups[+card.dataset.gi], [sub, items] = subs[+sec.dataset.si];
       if(state.isBlocked){ toast("Downloads are currently disabled for your account. Please contact support.", "error"); return; }
-      const chosen = picked.length ? picked : items;
+      if(!items.every(zpFileReady)){ toast("Finish editing every file first.", "error"); return; }
       if(!proNow()){
-        if(chosen.some(x=> x.proOnly)){ showProDialog("proonly"); return; }
-        if(chosen.length > 1){ showProDialog("bulk"); return; }
+        if(items.some(x => x.proOnly)){ showProDialog("proonly"); return; }
+        if(items.length > 1){ showProDialog("bulk"); return; }
         if(dlLeft() <= 0){ showProDialog("limit"); return; }
       }
-      adGate("fz:"+cat, ()=> downloadZipPack(cat, chosen));
+      adGate("fz:" + cat + "|" + sub, () => downloadZipPack(cat, items, sub));
     }
   };
-  wrap.onchange = (e)=>{
-    const card = e.target.closest(".pc-cat"); if(!card) return;
-    if(e.target.matches("[data-pall]")) card.querySelectorAll("[data-pz]").forEach(c=> c.checked = e.target.checked);
-    const n = [...card.querySelectorAll("[data-pz]")].filter(c=> c.checked).length;
-    card.querySelector("[data-pzip]").textContent = n ? `Download ZIP (${n} selected)` : "Download ZIP (all)";
-  };
   wrap.oninput = (e)=>{
-    const i = e.target.closest("[data-pe]"); if(!i) return;
+    const i = e.target.closest("[data-gs]"); if(!i) return;
+    const p = byId(i.dataset.gs), box = i.closest(".pc-editor"), k = state.zipStep[p.id] || 0;
     autoGrow(i);
-    (state.zipEdits[i.dataset.pe] = state.zipEdits[i.dataset.pe] || {})[i.dataset.k] = i.value;
-    zpRefresh(wrap);
+    (state.zipEdits[p.id] = state.zipEdits[p.id] || {})[k] = i.value;
+    gsLive(box, p);
+    zipRefresh(wrap);
   };
-  zpRefresh(wrap);
+  zipRefresh(wrap);
 }
 
 function cardVariant(id){
